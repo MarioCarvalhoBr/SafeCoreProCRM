@@ -28,17 +28,7 @@
                     </x-nav-link>
                     @endhasrole
 
-                    @hasrole('Admin')
-                    <x-nav-link :href="route('tenant.edit')" :active="request()->routeIs('tenant.edit')">
-                        {{ __('messages.clinic_settings') }}
-                    </x-nav-link>
-                    @endhasrole
 
-                    @hasrole('Admin')
-                    <x-nav-link :href="route('audit.index')" :active="request()->routeIs('audit.index')">
-                        {{ __('messages.audit_logs') }}
-                    </x-nav-link>
-                    @endhasrole
 
 
 
@@ -106,6 +96,24 @@
                         <x-dropdown-link :href="route('profile.edit')">
                             {{ __('Profile') }}
                         </x-dropdown-link>
+
+                        @hasrole('Admin')
+                        <x-dropdown-link :href="route('tenant.edit')">
+                            {{ __('messages.clinic_settings') }}
+                        </x-dropdown-link>
+                        @endhasrole
+
+                        @hasrole('Admin')
+                        <x-dropdown-link :href="route('audit.index')">
+                            {{ __('messages.audit_logs') }}
+                        </x-dropdown-link>
+                        @endhasrole
+
+                        @hasrole('Admin')
+                        <x-dropdown-link :href="route('backups.index')">
+                            {{ __('messages.backups') }}
+                        </x-dropdown-link>
+                        @endhasrole
 
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf

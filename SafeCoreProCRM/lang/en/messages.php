@@ -94,4 +94,21 @@ return [
     'appointments_by_status' => 'Appointments by Status',
     'appointments_doctor_today' => 'Appointments by Doctor (Today)',
     'appointments_doctor_month' => 'Appointments by Doctor (Month)',
+
+    'search' => 'Search...',
+    'search_button' => 'Search',
+    'clear' => 'Clear',
+
+    'backups' => 'Database Backups',
+    'generate_backup' => 'Generate Backup',
+    'download' => 'Download',
+    'file_name' => 'File Name',
+    'file_size' => 'Size',
+    'backup_created' => 'Backup generated successfully!',
+    'backup_deleted' => 'Backup deleted successfully!',
+    'no_backups_found' => 'No backups found.',
+
+    'restore' => 'Restore',
+    'confirm_restore' => 'Are you absolutely sure? This will wipe the current database and replace it with this backup!',
+    'backup_restored' => 'Database restored successfully!',
 ];

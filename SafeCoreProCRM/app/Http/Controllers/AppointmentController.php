@@ -12,14 +12,23 @@ use App\Models\Tenant;
 
 class AppointmentController extends Controller
 {
-    public function index()
+    public function index(\Illuminate\Http\Request $request)
     {
-        // Eager Loading: Carrega os agendamentos já com os dados do paciente e do médico (evita lentidão)
-        // Ordena para mostrar os agendamentos mais recentes/futuros primeiro
+        $search = $request->input('search');
+        $sortBy = $request->filled('sort_by') ? $request->sort_by : 'appointment_date';
+        $sortDir = $request->filled('sort_dir') ? $request->sort_dir : 'desc';
+
         $appointments = Appointment::with(['patient', 'doctor'])
-            ->orderBy('appointment_date', 'desc')
-            ->orderBy('appointment_time', 'desc')
-            ->paginate(10);
+            ->when($search, function($query) use ($search) {
+                $query->whereHas('patient', function($q) use ($search) {
+                    $q->where('name', 'like', "%{$search}%");
+                })->orWhereHas('doctor', function($q) use ($search) {
+                    $q->where('name', 'like', "%{$search}%");
+                })->orWhere('status', 'like', "%{$search}%");
+            })
+            ->orderBy($sortBy, $sortDir)
+            ->paginate(10)
+            ->appends($request->query());
 
         return view('appointments.index', compact('appointments'));
     }

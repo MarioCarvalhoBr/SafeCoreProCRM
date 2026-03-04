@@ -95,6 +95,23 @@ return [
     'appointments_doctor_today' => 'Citas por Médico (Hoy)',
     'appointments_doctor_month' => 'Citas por Médico (Mes)',
 
+    'search' => 'Buscar...',
+    'search_button' => 'Buscar',
+    'clear' => 'Limpiar',
+
+    'backups' => 'Copias de Seguridad',
+    'generate_backup' => 'Generar Copia',
+    'download' => 'Descargar',
+    'file_name' => 'Nombre del Archivo',
+    'file_size' => 'Tamaño',
+    'backup_created' => '¡Copia de seguridad generada con éxito!',
+    'backup_deleted' => '¡Copia de seguridad eliminada con éxito!',
+    'no_backups_found' => 'No se encontraron copias de seguridad.',
+
+    'restore' => 'Restaurar',
+    'confirm_restore' => '¿Estás absolutamente seguro? ¡Esto borrará la base de datos actual y la reemplazará con esta copia!',
+    'backup_restored' => '¡Base de datos restaurada con éxito!',
+
 
 
 ];

@@ -53,6 +53,13 @@ Route::middleware('auth')->group(function () {
 
         // Nova rota de Auditoria:
         Route::get('audit-logs', [\App\Http\Controllers\AuditLogController::class, 'index'])->name('audit.index');
+
+        // Módulo de Backups
+        Route::get('backups', [\App\Http\Controllers\BackupController::class, 'index'])->name('backups.index');
+        Route::post('backups/create', [\App\Http\Controllers\BackupController::class, 'create'])->name('backups.create');
+        Route::get('backups/download/{fileName}', [\App\Http\Controllers\BackupController::class, 'download'])->name('backups.download');
+        Route::delete('backups/delete/{fileName}', [\App\Http\Controllers\BackupController::class, 'destroy'])->name('backups.destroy');
+        Route::post('backups/restore/{fileName}', [\App\Http\Controllers\BackupController::class, 'restore'])->name('backups.restore');
     });
 });
 

@@ -10,10 +10,16 @@ use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
-    public function index()
+    public function index(\Illuminate\Http\Request $request)
     {
-        // Traz os usuários junto com seus papéis (Eager Loading para performance)
-        $users = User::with('roles')->orderBy('name')->paginate(10);
+        $search = $request->input('search');
+        $sortBy = $request->filled('sort_by') ? $request->sort_by : 'name';
+        $sortDir = $request->filled('sort_dir') ? $request->sort_dir : 'asc';
+
+        $users = User::with('roles')->when($search, function ($query, $search) {
+            return $query->where('name', 'like', "%{$search}%")->orWhere('email', 'like', "%{$search}%");
+        })->orderBy($sortBy, $sortDir)->paginate(10)->appends($request->query());
+
         return view('users.index', compact('users'));
     }
 

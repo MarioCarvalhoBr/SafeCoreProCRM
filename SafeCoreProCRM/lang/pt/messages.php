@@ -94,4 +94,21 @@ return [
     'appointments_by_status' => 'Consultas por Estado',
     'appointments_doctor_today' => 'Agendamentos por Médico (Hoje)',
     'appointments_doctor_month' => 'Agendamentos por Médico (Mês)',
+
+    'search' => 'Pesquisar...',
+    'search_button' => 'Buscar',
+    'clear' => 'Limpar',
+
+    'backups' => 'Backups do Sistema',
+    'generate_backup' => 'Gerar Novo Backup',
+    'download' => 'Baixar',
+    'file_name' => 'Nome do Arquivo',
+    'file_size' => 'Tamanho',
+    'backup_created' => 'Backup gerado com sucesso!',
+    'backup_deleted' => 'Backup excluído com sucesso!',
+    'no_backups_found' => 'Nenhum backup encontrado.',
+
+    'restore' => 'Restaurar',
+    'confirm_restore' => 'Tem a certeza absoluta? Isto apagará a base de dados atual e irá substituí-la por este backup!',
+    'backup_restored' => 'Base de dados restaurada com sucesso!',
 ];

@@ -7,10 +7,24 @@ use Illuminate\Http\Request;
 
 class PatientController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        // Ordena por nome e pagina de 10 em 10
-        $patients = Patient::orderBy('name')->paginate(10);
+        // 1. Captura os parâmetros de forma segura (ignora strings vazias)
+        $search = $request->input('search');
+        $sortBy = $request->filled('sort_by') ? $request->sort_by : 'created_at';
+        $sortDir = $request->filled('sort_dir') ? $request->sort_dir : 'desc';
+
+        // 2. Monta a Query Inteligente
+        $patients = Patient::when($search, function ($query, $search) {
+                return $query->where('name', 'like', "%{$search}%")
+                             ->orWhere('document_id', 'like', "%{$search}%")
+                             ->orWhere('phone', 'like', "%{$search}%")
+                             ->orWhere('email', 'like', "%{$search}%");
+            })
+            ->orderBy($sortBy, $sortDir)
+            ->paginate(10)
+            ->appends($request->query());
+
         return view('patients.index', compact('patients'));
     }
 
