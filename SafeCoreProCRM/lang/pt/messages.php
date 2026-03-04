@@ -74,4 +74,15 @@ return [
     'issued_on' => 'Emitido em',
     'certificate_text' => 'Atesto para os devidos fins que o paciente acima mencionado esteve sob cuidados médicos nesta data e necessita de :days dia(s) de repouso para sua recuperação.',
     'print_certificate' => 'Imprimir Atestado',
+
+    // Audit Logs
+    'audit_logs' => 'Logs de Auditoria',
+    'action' => 'Ação',
+    'user' => 'Realizado Por',
+    'module' => 'Módulo / Registo',
+    'details' => 'Detalhes',
+    'created' => 'Criou',
+    'updated' => 'Atualizou',
+    'deleted' => 'Excluiu',
+    'no_logs_found' => 'Nenhum log de atividade encontrado.',
 ];

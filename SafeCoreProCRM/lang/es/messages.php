@@ -75,6 +75,17 @@ return [
     'certificate_text' => 'Certifico que el paciente arriba mencionado estuvo bajo cuidados médicos en esta fecha y requiere :days día(s) de reposo para su recuperación.',
     'print_certificate' => 'Imprimir Certificado',
 
+    // Audit Logs
+    'audit_logs' => 'Registros de Auditoría',
+    'action' => 'Acción',
+    'user' => 'Realizado Por',
+    'module' => 'Módulo / Registro',
+    'details' => 'Detalles',
+    'created' => 'Creó',
+    'updated' => 'Actualizó',
+    'deleted' => 'Eliminó',
+    'no_logs_found' => 'No se encontraron registros de actividad.',
+
 
 
 ];

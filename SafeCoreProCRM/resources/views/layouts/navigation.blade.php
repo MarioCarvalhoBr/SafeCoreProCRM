@@ -23,9 +23,9 @@
                     </x-nav-link>
 
                     @hasrole('Admin')
-                        <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.*')">
-                            {{ __('messages.staff') }}
-                        </x-nav-link>
+                    <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.*')">
+                        {{ __('messages.staff') }}
+                    </x-nav-link>
                     @endhasrole
 
                     @hasrole('Admin')
@@ -33,6 +33,14 @@
                         {{ __('messages.clinic_settings') }}
                     </x-nav-link>
                     @endhasrole
+
+                    @hasrole('Admin')
+                    <x-nav-link :href="route('audit.index')" :active="request()->routeIs('audit.index')">
+                        {{ __('messages.audit_logs') }}
+                    </x-nav-link>
+                    @endhasrole
+
+
 
                 </div>
 

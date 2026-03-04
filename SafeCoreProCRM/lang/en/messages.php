@@ -74,4 +74,15 @@ return [
     'issued_on' => 'Issued on',
     'certificate_text' => 'I hereby certify that the patient mentioned above was under medical care on this date and requires :days day(s) of leave for recovery.',
     'print_certificate' => 'Print Certificate',
+
+    // Audit Logs
+    'audit_logs' => 'Audit Logs',
+    'action' => 'Action',
+    'user' => 'Performed By',
+    'module' => 'Module / Subject',
+    'details' => 'Details',
+    'created' => 'Created',
+    'updated' => 'Updated',
+    'deleted' => 'Deleted',
+    'no_logs_found' => 'No activity logs found.',
 ];

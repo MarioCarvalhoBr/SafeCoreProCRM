@@ -46,6 +46,9 @@ Route::middleware('auth')->group(function () {
     // ÁREA RESTRITA: Apenas usuários com a Role 'Admin' entram aqui
     Route::middleware(['role:Admin'])->group(function () {
         Route::resource('users', UserController::class);
+
+        // Nova rota de Auditoria:
+        Route::get('audit-logs', [\App\Http\Controllers\AuditLogController::class, 'index'])->name('audit.index');
     });
 });
 
