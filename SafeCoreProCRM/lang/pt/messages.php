@@ -59,4 +59,19 @@ return [
     'user_updated_successfully' => 'Membro da equipe atualizado com sucesso!',
     'user_deleted_successfully' => 'Membro da equipe excluído com sucesso!',
     'cannot_delete_self' => 'Bloqueio de Segurança: Você não pode excluir sua própria conta de administrador.',
+
+    // PDF & Prescriptions
+    'print_prescription' => 'Imprimir Receita',
+    'prescription' => 'Receituário Médico',
+    'patient_name' => 'Nome do Paciente',
+    'doctor_name' => 'Nome do Médico',
+    'date_of_issue' => 'Data de Emissão',
+    'signature' => 'Assinatura do Médico / Carimbo',
+    'clinic_contact' => 'Contacto da Clínica',
+
+    'medical_certificate' => 'Atestado Médico',
+    'certificate_days' => 'Dias de Afastamento',
+    'issued_on' => 'Emitido em',
+    'certificate_text' => 'Atesto para os devidos fins que o paciente acima mencionado esteve sob cuidados médicos nesta data e necessita de :days dia(s) de repouso para sua recuperação.',
+    'print_certificate' => 'Imprimir Atestado',
 ];

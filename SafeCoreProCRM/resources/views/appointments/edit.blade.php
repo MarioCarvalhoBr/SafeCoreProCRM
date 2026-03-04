@@ -68,6 +68,12 @@
                                 <x-input-error class="mt-2" :messages="$errors->get('notes')" />
                             </div>
 
+                            <div>
+                                <x-input-label for="certificate_days" :value="__('messages.certificate_days')" />
+                                <x-text-input id="certificate_days" name="certificate_days" type="number" class="mt-1 block w-full dark:bg-gray-900" :value="old('certificate_days', $appointment->certificate_days)" />
+                                <x-input-error class="mt-2" :messages="$errors->get('certificate_days')" />
+                            </div>
+
                         </div>
 
                         <div class="flex items-center gap-4 mt-6">

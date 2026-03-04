@@ -72,6 +72,20 @@
                                                 {{ __('messages.delete') }}
                                             </button>
 
+                                            <a href="{{ route('appointments.certificate', $appointment->id) }}" target="_blank" class="inline-flex items-center px-3 py-1.5 bg-orange-600 dark:bg-orange-500 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-orange-700 dark:hover:bg-orange-600 transition ease-in-out duration-150">
+                                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                                </svg>
+                                                {{ __('messages.medical_certificate') }}
+                                            </a>
+
+                                            <a href="{{ route('appointments.prescription', $appointment->id) }}" target="_blank" class="inline-flex items-center px-3 py-1.5 bg-green-600 dark:bg-green-500 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-700 dark:hover:bg-green-600 transition ease-in-out duration-150">
+                                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path>
+                                                </svg>
+                                                PDF
+                                            </a>
+
                                             <x-modal name="confirm-deletion-{{ $appointment->id }}" focusable>
                                                 <form method="post" action="{{ route('appointments.destroy', $appointment->id) }}" class="p-6 text-left">
                                                     @csrf

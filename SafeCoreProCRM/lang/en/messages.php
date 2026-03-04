@@ -59,4 +59,19 @@ return [
     'user_updated_successfully' => 'Staff member updated successfully!',
     'user_deleted_successfully' => 'Staff member deleted successfully!',
     'cannot_delete_self' => 'Security Lock: You cannot delete your own admin account.',
+
+    // PDF & Prescriptions
+    'print_prescription' => 'Print Prescription',
+    'prescription' => 'Medical Prescription',
+    'patient_name' => 'Patient Name',
+    'doctor_name' => 'Doctor Name',
+    'date_of_issue' => 'Date of Issue',
+    'signature' => 'Doctor\'s Signature / Stamp',
+    'clinic_contact' => 'Clinic Contact',
+
+    'medical_certificate' => 'Medical Certificate',
+    'certificate_days' => 'Days of Leave',
+    'issued_on' => 'Issued on',
+    'certificate_text' => 'I hereby certify that the patient mentioned above was under medical care on this date and requires :days day(s) of leave for recovery.',
+    'print_certificate' => 'Print Certificate',
 ];

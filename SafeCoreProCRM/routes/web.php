@@ -39,6 +39,10 @@ Route::middleware('auth')->group(function () {
     // Rota de Agendamentos
     Route::resource('appointments', AppointmentController::class);
 
+    // Rota para Gerar o PDF da Receita
+    Route::get('appointments/{appointment}/prescription', [AppointmentController::class, 'prescription'])->name('appointments.prescription');
+    Route::get('appointments/{appointment}/certificate', [AppointmentController::class, 'certificate'])->name('appointments.certificate');
+
     // ÁREA RESTRITA: Apenas usuários com a Role 'Admin' entram aqui
     Route::middleware(['role:Admin'])->group(function () {
         Route::resource('users', UserController::class);

@@ -15,7 +15,8 @@ class Appointment extends Model
         'appointment_date',
         'appointment_time',
         'status',
-        'notes'
+        'notes',
+        'certificate_days',
     ];
 
     // Relacionamento: Um agendamento pertence a um Paciente

@@ -59,4 +59,22 @@ return [
     'user_updated_successfully' => '¡Miembro del equipo actualizado con éxito!',
     'user_deleted_successfully' => '¡Miembro del equipo eliminado con éxito!',
     'cannot_delete_self' => 'Bloqueo de Seguridad: No puedes eliminar tu propia cuenta de administrador.',
+
+        // PDF & Prescriptions
+    'print_prescription' => 'Imprimir Receta',
+    'prescription' => 'Receta Médica',
+    'patient_name' => 'Nombre del Paciente',
+    'doctor_name' => 'Nombre del Médico',
+    'date_of_issue' => 'Fecha de Emisión',
+    'signature' => 'Firma del Médico / Sello',
+    'clinic_contact' => 'Contacto de la Clínica',
+
+    'medical_certificate' => 'Certificado Médico',
+    'certificate_days' => 'Días de Reposo',
+    'issued_on' => 'Emitido el',
+    'certificate_text' => 'Certifico que el paciente arriba mencionado estuvo bajo cuidados médicos en esta fecha y requiere :days día(s) de reposo para su recuperación.',
+    'print_certificate' => 'Imprimir Certificado',
+
+
+
 ];

@@ -7,6 +7,9 @@ use App\Models\Patient;
 use App\Models\User;
 use Illuminate\Http\Request;
 
+use Barryvdh\DomPDF\Facade\Pdf;
+use App\Models\Tenant;
+
 class AppointmentController extends Controller
 {
     public function index()
@@ -75,6 +78,7 @@ class AppointmentController extends Controller
             'appointment_time' => 'required',
             'status' => 'required|in:scheduled,completed,canceled', // Validação estrita de Status
             'notes' => 'nullable|string',
+            'certificate_days' => 'nullable|integer|min:0|max:90',
         ]);
 
         // Anti-Overbooking SÊNIOR: Verifica conflitos, MAS ignora o ID do agendamento atual
@@ -98,5 +102,28 @@ class AppointmentController extends Controller
         $appointment->delete();
 
         return redirect()->route('appointments.index')->with('success', __('messages.appointment_deleted_successfully'));
+    }
+
+    public function prescription(Appointment $appointment)
+    {
+        // 1. Busca as configurações da clínica para montar o cabeçalho (Logo, Nome, etc)
+        $tenant = Tenant::first() ?? new Tenant();
+
+        // 2. Opcional de Segurança: Garantir que as relações estão carregadas
+        $appointment->load(['patient', 'doctor']);
+
+        // 3. Monta o PDF a partir de uma View Blade
+        $pdf = Pdf::loadView('appointments.pdf', compact('appointment', 'tenant'));
+
+        // 4. Retorna em modo 'stream' (Abre no navegador). Se quisesse forçar download, seria ->download(...)
+        return $pdf->stream('receita_' . $appointment->patient->name . '.pdf');
+    }
+    public function certificate(Appointment $appointment)
+    {
+        $tenant = Tenant::first() ?? new Tenant();
+        $appointment->load(['patient', 'doctor']);
+
+        $pdf = Pdf::loadView('appointments.certificate_pdf', compact('appointment', 'tenant'));
+        return $pdf->stream('atestado_' . $appointment->patient->name . '.pdf');
     }
 }
