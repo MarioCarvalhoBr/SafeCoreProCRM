@@ -1,0 +1,102 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Appointment;
+use App\Models\Patient;
+use App\Models\User;
+use Illuminate\Http\Request;
+
+class AppointmentController extends Controller
+{
+    public function index()
+    {
+        // Eager Loading: Carrega os agendamentos já com os dados do paciente e do médico (evita lentidão)
+        // Ordena para mostrar os agendamentos mais recentes/futuros primeiro
+        $appointments = Appointment::with(['patient', 'doctor'])
+            ->orderBy('appointment_date', 'desc')
+            ->orderBy('appointment_time', 'desc')
+            ->paginate(10);
+
+        return view('appointments.index', compact('appointments'));
+    }
+
+    public function create()
+    {
+        // Precisamos enviar a lista de pacientes e médicos para preencher os <select> na View
+        $patients = Patient::orderBy('name')->get();
+
+        // Puxamos apenas os utilizadores que têm a Role de 'Doctor'
+        $doctors = User::role('Doctor')->orderBy('name')->get();
+
+        return view('appointments.create', compact('patients', 'doctors'));
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'patient_id' => 'required|exists:patients,id',
+            'user_id' => 'required|exists:users,id',
+            'appointment_date' => 'required|date',
+            'appointment_time' => 'required',
+            'notes' => 'nullable|string',
+        ]);
+
+        // Lógica Anti-Overbooking (Verifica se o médico já tem algo para este dia e hora exata)
+        $conflict = Appointment::where('user_id', $request->user_id)
+            ->where('appointment_date', $request->appointment_date)
+            ->where('appointment_time', $request->appointment_time)
+            ->exists();
+
+        if ($conflict) {
+            // Volta para trás com o erro i18n e não apaga o que o utilizador já tinha preenchido
+            return back()->withInput()->withErrors(['appointment_time' => __('messages.time_slot_taken')]);
+        }
+
+        Appointment::create($request->all());
+
+        return redirect()->route('appointments.index')->with('success', __('messages.appointment_created_successfully'));
+    }
+
+    public function edit(Appointment $appointment)
+    {
+        $patients = Patient::orderBy('name')->get();
+        $doctors = User::role('Doctor')->orderBy('name')->get();
+
+        return view('appointments.edit', compact('appointment', 'patients', 'doctors'));
+    }
+
+    public function update(Request $request, Appointment $appointment)
+    {
+        $request->validate([
+            'patient_id' => 'required|exists:patients,id',
+            'user_id' => 'required|exists:users,id',
+            'appointment_date' => 'required|date',
+            'appointment_time' => 'required',
+            'status' => 'required|in:scheduled,completed,canceled', // Validação estrita de Status
+            'notes' => 'nullable|string',
+        ]);
+
+        // Anti-Overbooking SÊNIOR: Verifica conflitos, MAS ignora o ID do agendamento atual
+        $conflict = Appointment::where('user_id', $request->user_id)
+            ->where('appointment_date', $request->appointment_date)
+            ->where('appointment_time', $request->appointment_time)
+            ->where('id', '!=', $appointment->id) // <-- A MÁGICA ESTÁ AQUI
+            ->exists();
+
+        if ($conflict) {
+            return back()->withInput()->withErrors(['appointment_time' => __('messages.time_slot_taken')]);
+        }
+
+        $appointment->update($request->all());
+
+        return redirect()->route('appointments.index')->with('success', __('messages.appointment_updated_successfully'));
+    }
+
+    public function destroy(Appointment $appointment)
+    {
+        $appointment->delete();
+
+        return redirect()->route('appointments.index')->with('success', __('messages.appointment_deleted_successfully'));
+    }
+}

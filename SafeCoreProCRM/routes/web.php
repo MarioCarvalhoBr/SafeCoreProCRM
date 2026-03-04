@@ -9,6 +9,9 @@ use App\Http\Controllers\TenantController;
 
 use App\Http\Controllers\PatientController;
 
+use App\Http\Controllers\AppointmentController;
+
+use App\Http\Controllers\UserController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -32,6 +35,14 @@ Route::middleware('auth')->group(function () {
 
     // Rota de Pacientes
     Route::resource('patients', PatientController::class);
+
+    // Rota de Agendamentos
+    Route::resource('appointments', AppointmentController::class);
+
+    // ÁREA RESTRITA: Apenas usuários com a Role 'Admin' entram aqui
+    Route::middleware(['role:Admin'])->group(function () {
+        Route::resource('users', UserController::class);
+    });
 });
 
 require __DIR__.'/auth.php';

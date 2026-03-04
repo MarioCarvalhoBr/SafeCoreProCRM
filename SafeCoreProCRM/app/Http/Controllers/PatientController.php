@@ -46,24 +46,31 @@ class PatientController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Patient $patient)
     {
-        //
+        return view('patients.edit', compact('patient'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Patient $patient)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'nullable|email|max:255',
+            'phone' => 'nullable|string|max:20',
+            // Validação única ignorando o próprio paciente
+            'document_id' => 'nullable|string|max:50|unique:patients,document_id,' . $patient->id,
+            'birth_date' => 'nullable|date',
+        ]);
+
+        $patient->update($request->all());
+
+        return redirect()->route('patients.index')->with('success', __('messages.patient_updated_successfully'));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy(Patient $patient)
     {
-        //
+        $patient->delete();
+
+        return redirect()->route('patients.index')->with('success', __('messages.patient_deleted_successfully'));
     }
 }
