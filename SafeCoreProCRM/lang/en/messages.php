@@ -85,4 +85,13 @@ return [
     'updated' => 'Updated',
     'deleted' => 'Deleted',
     'no_logs_found' => 'No activity logs found.',
+
+    // Dashboard
+    'welcome_back' => 'Welcome back',
+    'total_patients' => 'Total Patients',
+    'appointments_today' => 'Appointments Today',
+    'appointments_month' => 'Appointments This Month',
+    'appointments_by_status' => 'Appointments by Status',
+    'appointments_doctor_today' => 'Appointments by Doctor (Today)',
+    'appointments_doctor_month' => 'Appointments by Doctor (Month)',
 ];

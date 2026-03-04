@@ -1,7 +1,7 @@
 <?php
 return [
     'welcome' => 'Bem-vindo ao SafeCoreProCRM',
-    'dashboard' => 'Painel de Controlo',
+    'dashboard' => 'Painel de Controle',
     // Navbar & Settings
     'clinic_settings' => 'Configurações da Clínica',
     'profile' => 'Perfil',
@@ -85,4 +85,13 @@ return [
     'updated' => 'Atualizou',
     'deleted' => 'Excluiu',
     'no_logs_found' => 'Nenhum log de atividade encontrado.',
+
+    // Dashboard
+    'welcome_back' => 'Bem-vindo(a) de volta',
+    'total_patients' => 'Total de Pacientes',
+    'appointments_today' => 'Agendamentos Hoje',
+    'appointments_month' => 'Agendamentos Este Mês',
+    'appointments_by_status' => 'Consultas por Estado',
+    'appointments_doctor_today' => 'Agendamentos por Médico (Hoje)',
+    'appointments_doctor_month' => 'Agendamentos por Médico (Mês)',
 ];

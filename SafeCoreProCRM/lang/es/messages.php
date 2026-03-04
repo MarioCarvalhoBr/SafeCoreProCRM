@@ -86,6 +86,15 @@ return [
     'deleted' => 'Eliminó',
     'no_logs_found' => 'No se encontraron registros de actividad.',
 
+    // Dashboard
+    'welcome_back' => 'Bienvenido(a) de nuevo',
+    'total_patients' => 'Total de Pacientes',
+    'appointments_today' => 'Citas de Hoy',
+    'appointments_month' => 'Citas de este Mes',
+    'appointments_by_status' => 'Citas por Estado',
+    'appointments_doctor_today' => 'Citas por Médico (Hoy)',
+    'appointments_doctor_month' => 'Citas por Médico (Mes)',
+
 
 
 ];
