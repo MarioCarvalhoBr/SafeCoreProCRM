@@ -41,6 +41,8 @@ class PatientController extends Controller
             'phone' => 'nullable|string|max:20',
             'document_id' => 'nullable|string|max:50|unique:patients,document_id',
             'birth_date' => 'nullable|date',
+            'gender' => 'nullable|in:M,F',
+            'address' => 'nullable|string|max:255',
         ]);
 
         Patient::create($request->all());
@@ -75,6 +77,8 @@ class PatientController extends Controller
             // Validação única ignorando o próprio paciente
             'document_id' => 'nullable|string|max:50|unique:patients,document_id,' . $patient->id,
             'birth_date' => 'nullable|date',
+            'gender' => 'nullable|in:M,F',
+            'address' => 'nullable|string|max:255',
         ]);
 
         $patient->update($request->all());

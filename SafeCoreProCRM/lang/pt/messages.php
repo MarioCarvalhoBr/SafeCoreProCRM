@@ -181,4 +181,11 @@ return [
     'confirm_generate_access' => 'Gerar login para este paciente?',
     'confirm_reset_password' => 'Gerar nova senha de acesso web para este paciente?',
     'reset_password' => 'Redefinir Senha',
+
+    'gender' => 'Gender',
+    'address' => 'Address',
+    'male' => 'Male',
+    'female' => 'Female',
+
+
 ];

@@ -38,6 +38,17 @@
                         <span class="font-bold">{{ \Carbon\Carbon::parse($patient->birth_date)->format('d/m/Y') }}</span>
                     </div>
 
+                    <div>
+                        <h4 class="text-sm font-bold text-gray-500 uppercase">{{ __('messages.gender') }}</h4>
+                        <p class="text-gray-900 dark:text-gray-100">
+                            {{ $patient->gender ? ($patient->gender == 'M' ? __('messages.male') : __('messages.female')) : '--' }}
+                        </p>
+                    </div>
+                    <div class="md:col-span-2">
+                        <h4 class="text-sm font-bold text-gray-500 uppercase">{{ __('messages.address') }}</h4>
+                        <p class="text-gray-900 dark:text-gray-100">{{ $patient->address ?? '--' }}</p>
+                    </div>
+
                     <div class="flex items-center flex-wrap gap-2 mb-4" x-data="{}">
 
                         @if($patient->user_id)

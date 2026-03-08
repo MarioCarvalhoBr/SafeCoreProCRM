@@ -44,6 +44,23 @@
                                 <x-text-input id="birth_date" name="birth_date" type="date" class="mt-1 block w-full dark:bg-gray-900 dark:border-gray-700 [&::-webkit-calendar-picker-indicator]:dark:invert" :value="old('birth_date')" />
                                 <x-input-error class="mt-2" :messages="$errors->get('birth_date')" />
                             </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                                <div>
+                                    <x-input-label for="gender" :value="__('messages.gender')" />
+                                    <select id="gender" name="gender" class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 rounded-md shadow-sm">
+                                        <option value="">--</option>
+                                        <option value="M" {{ old('gender', $patient->gender ?? '') == 'M' ? 'selected' : '' }}>{{ __('messages.male') }}</option>
+                                        <option value="F" {{ old('gender', $patient->gender ?? '') == 'F' ? 'selected' : '' }}>{{ __('messages.female') }}</option>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <x-input-label for="address" :value="__('messages.address')" />
+                                    <x-text-input id="address" name="address" type="text" class="mt-1 block w-full" :value="old('address', $patient->address ?? '')" />
+                                </div>
+                            </div>
+
                         </div>
 
                         <div class="flex items-center gap-4 mt-6">

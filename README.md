@@ -94,7 +94,12 @@ foreach($roles as $r) { Spatie\Permission\Models\Role::create(['name'=>$r]); }
 $user->assignRole('Admin');
 ```
 
----
+####  Opção C: Modo de DESENVOLVIMENTO (CUIDADO): Popular o banco com dados de teste (Faker): 
+```bash
+    php artisan migrate:fresh --seed --seeder=RolesAndPermissionsSeeder
+    php artisan db:seed --class=FakeDataSeeder
+```
+
 
 ### 7. Comandos Úteis
 * **Limpar Cache de Permissões:** `php artisan permission:cache-reset`

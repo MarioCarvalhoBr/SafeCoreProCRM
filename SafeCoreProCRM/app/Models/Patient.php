@@ -15,7 +15,7 @@ class Patient extends Model
     use HasFactory, LogsActivity;
 
     protected $fillable = [
-        'user_id', 'name', 'email', 'phone', 'document_id', 'birth_date'
+        'user_id', 'name', 'email', 'phone', 'document_id', 'birth_date','gender', 'address'
     ];
 
     public function getActivitylogOptions(): LogOptions

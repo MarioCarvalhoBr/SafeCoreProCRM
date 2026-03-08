@@ -182,6 +182,11 @@ return [
     'confirm_reset_password' => '¿Generar nueva contraseña de acceso web para este paciente?',
     'reset_password' => 'Restablecer Contraseña',
 
+    'gender' => 'Género',
+    'address' => 'Dirección',
+    'male' => 'Masculino',
+    'female' => 'Femenino',
+
 
 
 ];

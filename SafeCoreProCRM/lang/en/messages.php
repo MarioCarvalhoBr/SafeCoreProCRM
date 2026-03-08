@@ -180,4 +180,11 @@ return [
     'confirm_generate_access' => 'Generate web login for this patient?',
     'confirm_reset_password' => 'Generate a new web access password for this patient?',
     'reset_password' => 'Reset Password',
+
+    'gender' => 'Gênero',
+    'address' => 'Endereço',
+    'male' => 'Masculino',
+    'female' => 'Feminino',
+
+
 ];
