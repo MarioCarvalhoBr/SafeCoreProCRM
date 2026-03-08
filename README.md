@@ -68,39 +68,39 @@ php artisan migrate
 
 ```
 
-### 6. Criando o Primeiro Administrador
+### 6. Migrações e População (Escolha uma Opção)
 
 Para acessar o sistema pela primeira vez, utilize o comando interativo (Tinker) para criar o usuário e atribuir a Role de Admin:
 
+#### Opção A: Via Seeder (Recomendado/Automático)
+Executa as tabelas e já cria as Roles e o Admin inicial automaticamente.
 ```bash
+php artisan migrate --seed --seeder=RolesAndPermissionsSeeder
+```
+*   **Login:** `admin@safecoreprocrm.com`
+*   **Senha:** `senha123`
+
+#### Opção B: Via Tinker (Manual)
+Se preferir criar um admin com dados personalizados via terminal:
+```bash
+php artisan migrate
 php artisan tinker
-
 ```
-
-Dentro do terminal Tinker, execute:
-
+Dentro do Tinker:
 ```php
-// 1. Criar o Usuário
-$user = App\Models\User::create([
-    'name' => 'Admin Inicial',
-    'email' => 'admin@teste.com',
-    'password' => Hash::make('senha123'),
-]);
-
-// 2. Criar as Roles iniciais (caso não tenha feito via Seeder)
-Spatie\Permission\Models\Role::create(['name' => 'Admin']);
-Spatie\Permission\Models\Role::create(['name' => 'Doctor']);
-Spatie\Permission\Models\Role::create(['name' => 'Receptionist']);
-Spatie\Permission\Models\Role::create(['name' => 'Patient']);
-
-// 3. Atribuir o Cargo
+$user = App\Models\User::create(['name'=>'Admin','email'=>'seu@email.com','password'=>Hash::make('sua_senha')]);
+$roles = ['Admin', 'Doctor', 'Receptionist', 'Patient'];
+foreach($roles as $r) { Spatie\Permission\Models\Role::create(['name'=>$r]); }
 $user->assignRole('Admin');
-
-exit;
-
 ```
 
-### 7. Acesso ao Projeto
+---
+
+### 7. Comandos Úteis
+* **Limpar Cache de Permissões:** `php artisan permission:cache-reset`
+* **Limpar Views:** `php artisan view:clear`
+
+### 8. Acesso ao Projeto
 
 O projeto está configurado para rodar em:
 `http://localhost/SafeCoreProCRM/SafeCoreProCRM/public`
