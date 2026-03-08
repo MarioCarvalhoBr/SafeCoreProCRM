@@ -150,4 +150,6 @@ return [
 
     'description' => 'Descrição',
     'thank_you' => 'Obrigado por confiar em nós!',
+
+    'delete_user_text' => 'Tem certeza de que deseja excluir este usuário? O seu acesso ao sistema será permanentemente revogado.',
 ];

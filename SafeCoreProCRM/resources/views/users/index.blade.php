@@ -71,27 +71,62 @@
                                         </td>
 
                                         <td class="py-3 px-4 text-center">
-                                            <div class="flex justify-center items-center space-x-3">
-                                                <a href="{{ route('users.edit', $user->id) }}" class="inline-flex items-center px-3 py-1.5 bg-blue-600 dark:bg-blue-500 rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 dark:hover:bg-blue-600 transition">
-                                                    {{ __('messages.edit') }}
-                                                </a>
+                                            <div class="flex justify-center items-center">
 
-                                                <button x-data="" x-on:click.prevent="$dispatch('open-modal', 'confirm-deletion-{{ $user->id }}')" class="inline-flex items-center px-3 py-1.5 bg-red-600 dark:bg-red-500 rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-700 dark:hover:bg-red-600 transition">
-                                                    {{ __('messages.delete') }}
-                                                </button>
+                                                <!-- Componente Dropdown Nativo do Breeze -->
+                                                <x-dropdown align="right" width="48">
+                                                    <x-slot name="trigger">
+                                                        <button class="inline-flex items-center px-3 py-2 border border-gray-300 dark:border-gray-600 text-sm leading-4 font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none transition ease-in-out duration-150 shadow-sm">
+                                                            {{ __('messages.options') }}
+                                                            <div class="ms-1">
+                                                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                                                </svg>
+                                                            </div>
+                                                        </button>
+                                                    </x-slot>
 
+                                                    <x-slot name="content">
+                                                        <!-- Editar -->
+                                                        <x-dropdown-link :href="route('users.edit', $user->id)" class="text-blue-600 dark:text-blue-400">
+                                                            {{ __('messages.edit') }}
+                                                        </x-dropdown-link>
+
+                                                        <div class="border-t border-gray-200 dark:border-gray-600"></div>
+
+                                                        <!-- Excluir (Abre Modal) -->
+                                                        <button type="button" x-data="" x-on:click.prevent="$dispatch('open-modal', 'confirm-deletion-{{ $user->id }}')" class="block w-full px-4 py-2 text-start text-sm leading-5 text-red-600 dark:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none focus:bg-gray-100 dark:focus:bg-gray-800 transition duration-150 ease-in-out">
+                                                            {{ __('messages.delete') }}
+                                                        </button>
+                                                    </x-slot>
+                                                </x-dropdown>
+
+                                                <!-- Modal de Exclusão (Fora do Dropdown) -->
                                                 <x-modal name="confirm-deletion-{{ $user->id }}" focusable>
                                                     <form method="post" action="{{ route('users.destroy', $user->id) }}" class="p-6 text-left">
                                                         @csrf
                                                         @method('delete')
-                                                        <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">{{ __('messages.confirm_delete') }}</h2>
-                                                        <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">Tem a certeza que quer eliminar {{ $user->name }}?</p>
+
+                                                        <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
+                                                            {{ __('messages.confirm_delete') }}: <span class="text-red-600 dark:text-red-400">{{ $user->name }}</span>
+                                                        </h2>
+
+                                                        <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+                                                            {{ __('messages.delete_user_text') }}
+                                                        </p>
+
                                                         <div class="mt-6 flex justify-end">
-                                                            <button type="button" x-on:click="$dispatch('close')" class="inline-flex items-center px-4 py-2 bg-gray-300 dark:bg-gray-700 rounded-md font-semibold text-xs text-gray-800 dark:text-gray-300 uppercase tracking-widest hover:bg-gray-400 dark:hover:bg-gray-600 transition">{{ __('messages.cancel') }}</button>
-                                                            <button type="submit" class="ms-3 inline-flex items-center px-4 py-2 bg-red-600 rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-700 transition">{{ __('messages.delete') }}</button>
+                                                            <button type="button" x-on:click="$dispatch('close')" class="inline-flex items-center px-4 py-2 bg-gray-300 dark:bg-gray-700 border border-transparent rounded-md font-semibold text-xs text-gray-800 dark:text-gray-300 uppercase tracking-widest hover:bg-gray-400 dark:hover:bg-gray-600 transition ease-in-out duration-150">
+                                                                {{ __('messages.cancel') }}
+                                                            </button>
+
+                                                            <button type="submit" class="ms-3 inline-flex items-center px-4 py-2 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150">
+                                                                {{ __('messages.delete') }}
+                                                            </button>
                                                         </div>
                                                     </form>
                                                 </x-modal>
+
                                             </div>
                                         </td>
                                     </tr>
