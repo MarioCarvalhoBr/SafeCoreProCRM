@@ -133,4 +133,20 @@ return [
     'file_deleted' => 'Arquivo excluído com sucesso!',
 
     'delete_file_warning' => 'Tem certeza de que deseja excluir este arquivo? Esta ação não pode ser desfeita.',
+
+    'financial' => 'Financeiro',
+    'payment' => 'Pagamento',
+    'amount' => 'Valor',
+    'payment_method' => 'Método de Pagamento',
+    'paid' => 'Pago',
+    'pending' => 'Pendente',
+    'cash' => 'Dinheiro',
+    'credit_card' => 'Cartão de Crédito',
+    'bank_transfer' => 'Transferência / PIX',
+    'generate_receipt' => 'Gerar Recibo',
+    'receipt' => 'Recibo',
+    'payment_updated' => 'Pagamento atualizado com sucesso!',
+
+    'description' => 'Descrição',
+    'thank_you' => 'Obrigado por confiar em nós!',
 ];

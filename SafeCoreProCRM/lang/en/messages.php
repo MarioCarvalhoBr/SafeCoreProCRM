@@ -133,4 +133,20 @@ return [
     'file_deleted' => 'File deleted successfully!',
 
     'delete_file_warning' => 'Are you sure you want to delete this file? This action cannot be undone.',
+
+    'financial' => 'Financial',
+    'payment' => 'Payment',
+    'amount' => 'Amount',
+    'payment_method' => 'Payment Method',
+    'paid' => 'Paid',
+    'pending' => 'Pending',
+    'cash' => 'Cash',
+    'credit_card' => 'Credit Card',
+    'bank_transfer' => 'Bank Transfer',
+    'generate_receipt' => 'Generate Receipt',
+    'receipt' => 'Receipt',
+    'payment_updated' => 'Payment updated successfully!',
+
+    'description' => 'Description',
+    'thank_you' => 'Thank you for trusting us!',
 ];

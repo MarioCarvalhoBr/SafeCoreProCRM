@@ -24,15 +24,15 @@
 
                     <div class="overflow-x-auto">
 
-                    <form method="GET" action="{{ route('appointments.index') }}" class="mb-6 flex gap-2">
-                        <input type="hidden" name="sort_by" value="{{ request('sort_by') }}">
-                        <input type="hidden" name="sort_dir" value="{{ request('sort_dir') }}">
-                        <x-text-input name="search" value="{{ request('search') }}" placeholder="{{ __('messages.search') }}" class="w-full md:w-1/3 dark:bg-gray-900" />
-                        <x-primary-button type="submit">{{ __('messages.search_button') }}</x-primary-button>
-                        @if(request('search'))
+                        <form method="GET" action="{{ route('appointments.index') }}" class="mb-6 flex gap-2">
+                            <input type="hidden" name="sort_by" value="{{ request('sort_by') }}">
+                            <input type="hidden" name="sort_dir" value="{{ request('sort_dir') }}">
+                            <x-text-input name="search" value="{{ request('search') }}" placeholder="{{ __('messages.search') }}" class="w-full md:w-1/3 dark:bg-gray-900" />
+                            <x-primary-button type="submit">{{ __('messages.search_button') }}</x-primary-button>
+                            @if(request('search'))
                             <a href="{{ route('appointments.index') }}" class="inline-flex items-center px-4 py-2 bg-gray-300 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-md hover:bg-gray-400 dark:hover:bg-gray-600 transition">{{ __('messages.clear') }}</a>
-                        @endif
-                    </form>
+                            @endif
+                        </form>
                         <table class="w-full text-left border-collapse">
                             <thead>
                                 <tr class="border-b border-gray-200 dark:border-gray-700">
@@ -85,6 +85,73 @@
                                             <button x-data="" x-on:click.prevent="$dispatch('open-modal', 'confirm-deletion-{{ $appointment->id }}')" class="inline-flex items-center px-3 py-1.5 bg-red-600 dark:bg-red-500 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-700 dark:hover:bg-red-600 transition ease-in-out duration-150">
                                                 {{ __('messages.delete') }}
                                             </button>
+
+                                            <button x-data="" x-on:click.prevent="$dispatch('open-modal', 'financial-{{ $appointment->id }}')" class="inline-flex items-center px-3 py-1.5 bg-emerald-600 dark:bg-emerald-500 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-emerald-700 dark:hover:bg-emerald-600 transition ease-in-out duration-150" title="{{ __('messages.financial') }}">
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                                </svg>
+                                            </button>
+
+                                            <x-modal name="financial-{{ $appointment->id }}" focusable>
+                                                <form method="post" action="{{ route('payments.update', $appointment->id) }}" class="p-6 text-left whitespace-normal">
+                                                    @csrf
+                                                    @method('put')
+
+                                                    <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100 flex items-center mb-4">
+                                                        <svg class="w-5 h-5 mr-2 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                                        </svg>
+                                                        {{ __('messages.financial') }} - {{ $appointment->patient->name }}
+                                                    </h2>
+
+                                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                                        <div>
+                                                            <x-input-label for="amount_{{ $appointment->id }}" :value="__('messages.amount')" />
+                                                            <x-text-input id="amount_{{ $appointment->id }}" name="amount" type="number" step="0.01" min="0" class="mt-1 block w-full dark:bg-gray-900 dark:border-gray-700" :value="old('amount', $appointment->payment->amount ?? '0.00')" required />
+                                                        </div>
+
+                                                        <div>
+                                                            <x-input-label for="status_{{ $appointment->id }}" :value="__('messages.status')" />
+                                                            <select id="status_{{ $appointment->id }}" name="status" class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 rounded-md shadow-sm" required>
+                                                                <option value="pending" {{ ($appointment->payment->status ?? '') === 'pending' ? 'selected' : '' }}>{{ __('messages.pending') }}</option>
+                                                                <option value="paid" {{ ($appointment->payment->status ?? '') === 'paid' ? 'selected' : '' }}>{{ __('messages.paid') }}</option>
+                                                            </select>
+                                                        </div>
+
+                                                        <div class="md:col-span-2">
+                                                            <x-input-label for="payment_method_{{ $appointment->id }}" :value="__('messages.payment_method')" />
+                                                            <select id="payment_method_{{ $appointment->id }}" name="payment_method" class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 rounded-md shadow-sm">
+                                                                <option value="">--</option>
+                                                                <option value="cash" {{ ($appointment->payment->payment_method ?? '') === 'cash' ? 'selected' : '' }}>{{ __('messages.cash') }}</option>
+                                                                <option value="credit_card" {{ ($appointment->payment->payment_method ?? '') === 'credit_card' ? 'selected' : '' }}>{{ __('messages.credit_card') }}</option>
+                                                                <option value="bank_transfer" {{ ($appointment->payment->payment_method ?? '') === 'bank_transfer' ? 'selected' : '' }}>{{ __('messages.bank_transfer') }}</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="mt-6 flex justify-between items-center">
+                                                        <div>
+                                                            @if($appointment->payment && $appointment->payment->status === 'paid')
+                                                            <a href="{{ route('payments.receipt', $appointment->id) }}" target="_blank" class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 transition">
+                                                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path>
+                                                                </svg>
+                                                                {{ __('messages.generate_receipt') }}
+                                                            </a>
+                                                            @endif
+                                                        </div>
+
+                                                        <div class="flex gap-3">
+                                                            <button type="button" x-on:click="$dispatch('close')" class="inline-flex items-center px-4 py-2 bg-gray-300 dark:bg-gray-700 rounded-md font-semibold text-xs text-gray-800 dark:text-gray-300 uppercase tracking-widest hover:bg-gray-400 dark:hover:bg-gray-600 transition">
+                                                                {{ __('messages.cancel') }}
+                                                            </button>
+                                                            <button type="submit" class="inline-flex items-center px-4 py-2 bg-emerald-600 rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-emerald-700 transition">
+                                                                {{ __('messages.save') }}
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </x-modal>
 
                                             <a href="{{ route('appointments.certificate', $appointment->id) }}" target="_blank" class="inline-flex items-center px-3 py-1.5 bg-orange-600 dark:bg-orange-500 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-orange-700 dark:hover:bg-orange-600 transition ease-in-out duration-150">
                                                 <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">

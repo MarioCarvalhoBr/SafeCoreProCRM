@@ -134,6 +134,22 @@ return [
 
     'delete_file_warning' => '¿Estás seguro de que deseas eliminar este archivo? Esta acción no se puede deshacer.',
 
+    'financial' => 'Financiero',
+    'payment' => 'Pago',
+    'amount' => 'Monto',
+    'payment_method' => 'Método de Pago',
+    'paid' => 'Pagado',
+    'pending' => 'Pendiente',
+    'cash' => 'Efectivo',
+    'credit_card' => 'Tarjeta de Crédito',
+    'bank_transfer' => 'Transferencia Bancaria',
+    'generate_receipt' => 'Generar Recibo',
+    'receipt' => 'Recibo',
+    'payment_updated' => '¡Pago actualizado con éxito!',
+
+    'description' => 'Descripción',
+    'thank_you' => '¡Gracias por confiar en nosotros!',
+
 
 
 ];

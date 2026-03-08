@@ -41,4 +41,10 @@ class Appointment extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    // Uma consulta tem um pagamento
+    public function payment()
+    {
+        return $this->hasOne(Payment::class);
+    }
 }

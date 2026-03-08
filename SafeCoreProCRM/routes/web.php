@@ -42,6 +42,9 @@ Route::middleware('auth')->group(function () {
 
     // Rota de Agendamentos
     Route::resource('appointments', AppointmentController::class);
+    // Rotas do Módulo Financeiro
+    Route::put('appointments/{appointment}/payment', [\App\Http\Controllers\PaymentController::class, 'update'])->name('payments.update');
+    Route::get('appointments/{appointment}/receipt', [\App\Http\Controllers\PaymentController::class, 'receipt'])->name('payments.receipt');
 
     // Rota para Gerar o PDF da Receita
     Route::get('appointments/{appointment}/prescription', [AppointmentController::class, 'prescription'])->name('appointments.prescription');

@@ -18,7 +18,7 @@ class AppointmentController extends Controller
         $sortBy = $request->filled('sort_by') ? $request->sort_by : 'appointment_date';
         $sortDir = $request->filled('sort_dir') ? $request->sort_dir : 'desc';
 
-        $appointments = Appointment::with(['patient', 'doctor'])
+        $appointments = Appointment::with(['patient', 'doctor', 'payment'])
             ->when($search, function($query) use ($search) {
                 $query->whereHas('patient', function($q) use ($search) {
                     $q->where('name', 'like', "%{$search}%");
