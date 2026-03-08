@@ -21,6 +21,7 @@ return [
     'no_patients_found' => 'Nenhum paciente cadastrado ainda.',
     'patient_created_successfully' => 'Paciente cadastrado com sucesso!',
 
+    'open' => 'Abrir',
     'edit' => 'Editar',
     'delete' => 'Excluir',
     'confirm_delete' => 'Confirmar Exclusão',
@@ -111,4 +112,16 @@ return [
     'restore' => 'Restaurar',
     'confirm_restore' => 'Tem a certeza absoluta? Isto apagará a base de dados atual e irá substituí-la por este backup!',
     'backup_restored' => 'Base de dados restaurada com sucesso!',
+
+    'medical_record' => 'Prontuário Médico',
+    'blood_type' => 'Tipo Sanguíneo',
+    'allergies' => 'Alergias',
+    'family_history' => 'Histórico Familiar',
+    'past_surgeries' => 'Cirurgias Anteriores',
+    'current_medications' => 'Medicações em Uso',
+    'view_record' => 'Perfil do Paciente',
+
+    'appointment_history' => 'Histórico de Consultas',
+    'no_appointments_history' => 'Nenhuma consulta encontrada para este paciente.',
+    'notes' => 'Notas / Sintomas',
 ];

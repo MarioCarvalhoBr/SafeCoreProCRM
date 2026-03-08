@@ -52,9 +52,11 @@ class PatientController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Patient $patient)
     {
-        //
+        // Carrega o paciente junto com o seu prontuário e histórico de consultas
+        $patient->load(['medicalRecord', 'appointments.doctor']);
+        return view('patients.show', compact('patient'));
     }
 
     /**

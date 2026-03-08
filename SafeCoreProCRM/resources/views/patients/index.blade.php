@@ -66,6 +66,11 @@
                                     <td class="py-3 px-4 text-center">
                                         <div class="flex justify-center items-center space-x-3">
 
+
+                                            <a href="{{ route('patients.show', $patient->id) }}" class="inline-flex items-center px-3 py-1.5 bg-blue-400 dark:bg-blue-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 dark:hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150">
+                                                {{ __('messages.open') }}
+                                            </a>
+
                                             <a href="{{ route('patients.edit', $patient->id) }}" class="inline-flex items-center px-3 py-1.5 bg-blue-600 dark:bg-blue-500 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 dark:hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150">
                                                 {{ __('messages.edit') }}
                                             </a>

@@ -21,6 +21,7 @@ return [
     'no_patients_found' => 'Aún no hay pacientes registrados.',
     'patient_created_successfully' => '¡Paciente registrado con éxito!',
 
+    'open' => 'Abrir',
     'edit' => 'Editar',
     'delete' => 'Eliminar',
     'confirm_delete' => 'Confirmar Eliminación',
@@ -111,6 +112,18 @@ return [
     'restore' => 'Restaurar',
     'confirm_restore' => '¿Estás absolutamente seguro? ¡Esto borrará la base de datos actual y la reemplazará con esta copia!',
     'backup_restored' => '¡Base de datos restaurada con éxito!',
+
+    'medical_record' => 'Historial médico',
+    'blood_type' => 'Tipo de sangre',
+    'allergies' => 'Alergias',
+    'family_history' => 'Antecedentes familiares',
+    'past_surgeries' => 'Cirugías previas',
+    'current_medications' => 'Medicamentos actuales',
+    'view_record' => 'Perfil del paciente',
+
+    'appointment_history' => 'Historial de Citas',
+    'no_appointments_history' => 'No se encontraron citas para este paciente.',
+    'notes' => 'Notas / Síntomas',
 
 
 

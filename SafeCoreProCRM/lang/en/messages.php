@@ -21,6 +21,7 @@ return [
     'no_patients_found' => 'No patients registered yet.',
     'patient_created_successfully' => 'Patient registered successfully!',
 
+    'open' => 'Open',
     'edit' => 'Edit',
     'delete' => 'Delete',
     'confirm_delete' => 'Confirm Deletion',
@@ -111,4 +112,16 @@ return [
     'restore' => 'Restore',
     'confirm_restore' => 'Are you absolutely sure? This will wipe the current database and replace it with this backup!',
     'backup_restored' => 'Database restored successfully!',
+
+    'medical_record' => 'Medical Record',
+    'blood_type' => 'Blood Type',
+    'allergies' => 'Allergies',
+    'family_history' => 'Family History',
+    'past_surgeries' => 'Past Surgeries',
+    'current_medications' => 'Current Medications',
+    'view_record' => 'Patient Profile',
+
+    'appointment_history' => 'Appointment History',
+    'no_appointments_history' => 'No appointments found for this patient.',
+    'notes' => 'Notes / Symptoms',
 ];

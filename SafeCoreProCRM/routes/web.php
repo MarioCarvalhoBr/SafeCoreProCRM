@@ -47,6 +47,10 @@ Route::middleware('auth')->group(function () {
     Route::get('appointments/{appointment}/prescription', [AppointmentController::class, 'prescription'])->name('appointments.prescription');
     Route::get('appointments/{appointment}/certificate', [AppointmentController::class, 'certificate'])->name('appointments.certificate');
 
+    // Rotas do Prontuário / Perfil do Paciente
+    Route::get('patients/{patient}/profile', [\App\Http\Controllers\PatientController::class, 'show'])->name('patients.show');
+    Route::put('patients/{patient}/medical-record', [\App\Http\Controllers\MedicalRecordController::class, 'update'])->name('medical_records.update');
+
     // ÁREA RESTRITA: Apenas usuários com a Role 'Admin' entram aqui
     Route::middleware(['role:Admin'])->group(function () {
         Route::resource('users', UserController::class);
