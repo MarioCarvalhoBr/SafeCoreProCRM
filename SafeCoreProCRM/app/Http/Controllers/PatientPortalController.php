@@ -43,7 +43,7 @@ class PatientPortalController extends Controller
     public function storeAppointment(Request $request)
     {
         $request->validate([
-            'doctor_id' => 'required|exists:users,id',
+            'user_id' => 'required|exists:users,id',
             'appointment_date' => 'required|date|after_or_equal:today',
             'appointment_time' => 'required',
             'notes' => 'nullable|string|max:1000',
@@ -53,7 +53,7 @@ class PatientPortalController extends Controller
 
         Appointment::create([
             'patient_id' => $patient->id,
-            'doctor_id' => $request->doctor_id,
+            'user_id' => $request->doctor_id,
             'appointment_date' => $request->appointment_date,
             'appointment_time' => $request->appointment_time,
             'status' => 'scheduled',

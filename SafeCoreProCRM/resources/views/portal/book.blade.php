@@ -15,8 +15,8 @@
 
                         <!-- Escolher Médico -->
                         <div>
-                            <x-input-label for="doctor_id" :value="__('messages.choose_doctor')" />
-                            <select id="doctor_id" name="doctor_id" class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 rounded-md shadow-sm" required>
+                            <x-input-label for="user_id" :value="__('messages.choose_doctor')" />
+                            <select id="user_id" name="user_id" class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 rounded-md shadow-sm" required>
                                 <option value="">-- {{ __('messages.choose_doctor') }} --</option>
                                 @foreach($doctors as $doctor)
                                     <option value="{{ $doctor->id }}">{{ $doctor->name }} ({{ $doctor->specialty ?? 'Geral' }})</option>
