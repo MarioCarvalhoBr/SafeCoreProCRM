@@ -51,6 +51,11 @@ Route::middleware('auth')->group(function () {
     Route::get('patients/{patient}/profile', [\App\Http\Controllers\PatientController::class, 'show'])->name('patients.show');
     Route::put('patients/{patient}/medical-record', [\App\Http\Controllers\MedicalRecordController::class, 'update'])->name('medical_records.update');
 
+    // Rotas de Arquivos Médicos
+    Route::post('patients/{patient}/files', [\App\Http\Controllers\MedicalFileController::class, 'store'])->name('medical_files.store');
+    Route::get('medical-files/{medicalFile}/download', [\App\Http\Controllers\MedicalFileController::class, 'download'])->name('medical_files.download');
+    Route::delete('medical-files/{medicalFile}', [\App\Http\Controllers\MedicalFileController::class, 'destroy'])->name('medical_files.destroy');
+
     // ÁREA RESTRITA: Apenas usuários com a Role 'Admin' entram aqui
     Route::middleware(['role:Admin'])->group(function () {
         Route::resource('users', UserController::class);

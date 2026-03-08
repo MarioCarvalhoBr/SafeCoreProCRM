@@ -124,4 +124,13 @@ return [
     'appointment_history' => 'Appointment History',
     'no_appointments_history' => 'No appointments found for this patient.',
     'notes' => 'Notes / Symptoms',
+
+    'medical_files' => 'Medical Files & Exams',
+    'upload_file' => 'Upload File',
+    'choose_file' => 'Choose File (PDF, JPG, PNG)',
+    'no_files' => 'No files uploaded yet.',
+    'file_uploaded' => 'File uploaded successfully!',
+    'file_deleted' => 'File deleted successfully!',
+
+    'delete_file_warning' => 'Are you sure you want to delete this file? This action cannot be undone.',
 ];

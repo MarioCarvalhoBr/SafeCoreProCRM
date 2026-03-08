@@ -8,6 +8,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\LogOptions;
 use App\Models\Appointment;
 use App\Models\MedicalRecord;
+use App\Models\MedicalFile;
 
 class Patient extends Model
 {
@@ -34,5 +35,10 @@ class Patient extends Model
     {
         // Um paciente "tem muitos" agendamentos
         return $this->hasMany(Appointment::class);
+    }
+
+    public function medicalFiles()
+    {
+        return $this->hasMany(MedicalFile::class);
     }
 }

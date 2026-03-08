@@ -36,6 +36,8 @@
                 </div>
             </div>
 
+
+
             <!-- Card Inferior: Prontuário Médico Clínico -->
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 border-b border-gray-200 dark:border-gray-700">
@@ -86,6 +88,90 @@
                             <a href="{{ route('patients.index') }}" class="text-sm text-gray-600 dark:text-gray-400 hover:underline">{{ __('messages.cancel') }}</a>
                         </div>
                     </form>
+                </div>
+            </div>
+
+            <!-- Card: Arquivos Médicos e Exames -->
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg mt-6">
+                <div class="p-6 border-b border-gray-200 dark:border-gray-700">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+                        <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 flex items-center">
+                            <svg class="w-5 h-5 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"></path></svg>
+                            {{ __('messages.medical_files') }}
+                        </h3>
+
+                        <!-- Formulário de Upload -->
+                        <!-- IMPORTANTE: enctype="multipart/form-data" é obrigatório para uploads -->
+                        <form method="POST" action="{{ route('medical_files.store', $patient->id) }}" enctype="multipart/form-data" class="flex items-center gap-2">
+                            @csrf
+                            <input type="file" name="file" accept=".pdf,.jpg,.jpeg,.png" required class="block w-full text-sm text-gray-500 dark:text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-green-50 file:text-green-700 hover:file:bg-green-100 dark:file:bg-gray-700 dark:file:text-gray-300 transition cursor-pointer">
+                            <button type="submit" class="inline-flex items-center px-4 py-2 bg-green-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-700 transition">
+                                {{ __('messages.upload_file') }}
+                            </button>
+                        </form>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                        @forelse($patient->medicalFiles as $file)
+                            <div class="border border-gray-200 dark:border-gray-700 rounded-lg p-4 flex items-center justify-between bg-gray-50 dark:bg-gray-900">
+                                <div class="flex items-center space-x-3 overflow-hidden">
+                                    <!-- Ícone dinâmico: PDF ou Imagem -->
+                                    @if(str_contains($file->mime_type, 'pdf'))
+                                        <svg class="w-8 h-8 text-red-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd"></path></svg>
+                                    @else
+                                        <svg class="w-8 h-8 text-blue-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"></path></svg>
+                                    @endif
+
+                                    <span class="text-sm font-medium text-gray-900 dark:text-gray-100 truncate" title="{{ $file->original_name }}">
+                                        {{ $file->original_name }}
+                                    </span>
+                                </div>
+
+                               <div class="flex items-center space-x-2 ml-2">
+                                    <!-- Botão de Download Seguro -->
+                                    <a href="{{ route('medical_files.download', $file->id) }}" class="text-blue-500 hover:text-blue-700 transition" title="{{ __('messages.download') }}">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                                    </a>
+
+                                    <!-- Botão de Deletar (Trigger do Modal) -->
+                                    <button x-data="" x-on:click.prevent="$dispatch('open-modal', 'delete-file-{{ $file->id }}')" class="text-red-500 hover:text-red-700 transition" title="{{ __('messages.delete') }}">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                    </button>
+
+                                    <!-- Modal de Exclusão do Arquivo -->
+                                    <x-modal name="delete-file-{{ $file->id }}" focusable>
+                                        <form method="post" action="{{ route('medical_files.destroy', $file->id) }}" class="p-6 text-left whitespace-normal">
+                                            @csrf
+                                            @method('delete')
+
+                                            <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
+                                                {{ __('messages.confirm_delete') }}
+                                            </h2>
+
+                                            <p class="mt-3 text-sm text-gray-600 dark:text-gray-400">
+                                                {{ __('messages.delete_file_warning') }}
+                                                <br>
+                                                <strong class="mt-2 block text-gray-900 dark:text-gray-200">{{ $file->original_name }}</strong>
+                                            </p>
+
+                                            <div class="mt-6 flex justify-end">
+                                                <button type="button" x-on:click="$dispatch('close')" class="inline-flex items-center px-4 py-2 bg-gray-300 dark:bg-gray-700 rounded-md font-semibold text-xs text-gray-800 dark:text-gray-300 uppercase tracking-widest hover:bg-gray-400 dark:hover:bg-gray-600 transition">
+                                                    {{ __('messages.cancel') }}
+                                                </button>
+                                                <button type="submit" class="ms-3 inline-flex items-center px-4 py-2 bg-red-600 rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-700 transition">
+                                                    {{ __('messages.delete') }}
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </x-modal>
+                                </div>
+                            </div>
+                        @empty
+                            <div class="col-span-full py-4 text-center text-gray-500 dark:text-gray-400">
+                                {{ __('messages.no_files') }}
+                            </div>
+                        @endforelse
+                    </div>
                 </div>
             </div>
 

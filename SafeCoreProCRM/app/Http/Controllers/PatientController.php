@@ -54,8 +54,7 @@ class PatientController extends Controller
      */
     public function show(Patient $patient)
     {
-        // Carrega o paciente junto com o seu prontuário e histórico de consultas
-        $patient->load(['medicalRecord', 'appointments.doctor']);
+        $patient->load(['medicalRecord', 'appointments.doctor', 'medicalFiles']);
         return view('patients.show', compact('patient'));
     }
 

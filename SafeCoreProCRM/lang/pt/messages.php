@@ -124,4 +124,13 @@ return [
     'appointment_history' => 'Histórico de Consultas',
     'no_appointments_history' => 'Nenhuma consulta encontrada para este paciente.',
     'notes' => 'Notas / Sintomas',
+
+    'medical_files' => 'Arquivos Médicos e Exames',
+    'upload_file' => 'Enviar Arquivo',
+    'choose_file' => 'Escolher Arquivo (PDF, JPG, PNG)',
+    'no_files' => 'Nenhum arquivo enviado ainda.',
+    'file_uploaded' => 'Arquivo enviado com sucesso!',
+    'file_deleted' => 'Arquivo excluído com sucesso!',
+
+    'delete_file_warning' => 'Tem certeza de que deseja excluir este arquivo? Esta ação não pode ser desfeita.',
 ];

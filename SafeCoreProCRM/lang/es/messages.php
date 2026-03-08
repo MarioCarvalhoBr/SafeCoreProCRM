@@ -125,6 +125,15 @@ return [
     'no_appointments_history' => 'No se encontraron citas para este paciente.',
     'notes' => 'Notas / Síntomas',
 
+    'medical_files' => 'Archivos Médicos y Exámenes',
+    'upload_file' => 'Subir Archivo',
+    'choose_file' => 'Elegir Archivo (PDF, JPG, PNG)',
+    'no_files' => 'Aún no hay archivos subidos.',
+    'file_uploaded' => '¡Archivo subido con éxito!',
+    'file_deleted' => '¡Archivo eliminado con éxito!',
+
+    'delete_file_warning' => '¿Estás seguro de que deseas eliminar este archivo? Esta acción no se puede deshacer.',
+
 
 
 ];
