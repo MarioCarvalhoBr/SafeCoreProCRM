@@ -56,4 +56,10 @@ class User extends Authenticatable
             ->logOnlyDirty()
             ->dontSubmitEmptyLogs();
     }
+
+    // Um Usuário pode ter um Perfil de Paciente
+    public function patientProfile()
+    {
+        return $this->hasOne(Patient::class);
+    }
 }

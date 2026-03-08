@@ -15,7 +15,7 @@ class Patient extends Model
     use HasFactory, LogsActivity;
 
     protected $fillable = [
-        'name', 'email', 'phone', 'document_id', 'birth_date'
+        'user_id', 'name', 'email', 'phone', 'document_id', 'birth_date'
     ];
 
     public function getActivitylogOptions(): LogOptions
@@ -40,5 +40,11 @@ class Patient extends Model
     public function medicalFiles()
     {
         return $this->hasMany(MedicalFile::class);
+    }
+
+    // Um Paciente pertence a uma conta de Usuário (Login)
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

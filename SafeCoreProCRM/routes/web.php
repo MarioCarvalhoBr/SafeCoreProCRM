@@ -1,20 +1,19 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\LanguageController;
-
 use App\Http\Controllers\TenantController;
-
 use App\Http\Controllers\PatientController;
-
 use App\Http\Controllers\AppointmentController;
-
 use App\Http\Controllers\UserController;
-
 use App\Http\Controllers\DashboardController;
-
+use App\Http\Controllers\PatientPortalController;
+use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\MedicalRecordController;
+use App\Http\Controllers\MedicalFileController;
+use App\Http\Controllers\AuditLogController;
+use App\Http\Controllers\BackupController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -22,56 +21,74 @@ Route::get('/', function () {
 
 Route::get('lang/{lang}', [LanguageController::class, 'switchLang'])->name('lang.switch');
 
-
-
-Route::get('/dashboard', [DashboardController::class, 'index'])
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
-
+// ==========================================
+// TODAS AS ROTAS PROTEGIDAS POR LOGIN (AUTH)
+// ==========================================
 Route::middleware('auth')->group(function () {
+
+    // 1. PERFIL DO USUÁRIO (Comum a Todos: Equipe e Pacientes)
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-     // Rotas da Clínica (Tenant)
-    Route::get('/settings', [TenantController::class, 'edit'])->name('tenant.edit');
-    Route::put('/settings', [TenantController::class, 'update'])->name('tenant.update');
+    // ==========================================
+    // 2. PORTAL DO PACIENTE (Self-Service)
+    // Acesso: Apenas Role 'Patient'
+    // ==========================================
+    Route::middleware(['role:Patient'])->prefix('portal')->name('portal.')->group(function () {
+        Route::get('/dashboard', [PatientPortalController::class, 'index'])->name('dashboard');
+        Route::get('/book', [PatientPortalController::class, 'createAppointment'])->name('book');
+        Route::post('/book', [PatientPortalController::class, 'storeAppointment'])->name('store_appointment');
+    });
 
-    // Rota de Pacientes
-    Route::resource('patients', PatientController::class);
+    // ==========================================
+    // 3. ÁREA DA CLÍNICA (Operação Diária)
+    // Acesso: Admin, Médicos e Recepcionistas
+    // ==========================================
+    Route::middleware(['verified', 'role:Admin|Doctor|Receptionist'])->group(function () {
 
-    // Rota de Agendamentos
-    Route::resource('appointments', AppointmentController::class);
-    // Rotas do Módulo Financeiro
-    Route::put('appointments/{appointment}/payment', [\App\Http\Controllers\PaymentController::class, 'update'])->name('payments.update');
-    Route::get('appointments/{appointment}/receipt', [\App\Http\Controllers\PaymentController::class, 'receipt'])->name('payments.receipt');
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    // Rota para Gerar o PDF da Receita
-    Route::get('appointments/{appointment}/prescription', [AppointmentController::class, 'prescription'])->name('appointments.prescription');
-    Route::get('appointments/{appointment}/certificate', [AppointmentController::class, 'certificate'])->name('appointments.certificate');
+        // Configurações da Clínica (Tenant)
+        Route::get('/settings', [TenantController::class, 'edit'])->name('tenant.edit');
+        Route::put('/settings', [TenantController::class, 'update'])->name('tenant.update');
 
-    // Rotas do Prontuário / Perfil do Paciente
-    Route::get('patients/{patient}/profile', [\App\Http\Controllers\PatientController::class, 'show'])->name('patients.show');
-    Route::put('patients/{patient}/medical-record', [\App\Http\Controllers\MedicalRecordController::class, 'update'])->name('medical_records.update');
+        // Pacientes, Prontuário e Arquivos
+        Route::resource('patients', PatientController::class);
+        Route::post('patients/{patient}/generate-access', [PatientController::class, 'generateAccess'])->name('patients.generate_access');
+        Route::get('patients/{patient}/profile', [PatientController::class, 'show'])->name('patients.show');
+        Route::put('patients/{patient}/medical-record', [MedicalRecordController::class, 'update'])->name('medical_records.update');
 
-    // Rotas de Arquivos Médicos
-    Route::post('patients/{patient}/files', [\App\Http\Controllers\MedicalFileController::class, 'store'])->name('medical_files.store');
-    Route::get('medical-files/{medicalFile}/download', [\App\Http\Controllers\MedicalFileController::class, 'download'])->name('medical_files.download');
-    Route::delete('medical-files/{medicalFile}', [\App\Http\Controllers\MedicalFileController::class, 'destroy'])->name('medical_files.destroy');
+        Route::post('patients/{patient}/files', [MedicalFileController::class, 'store'])->name('medical_files.store');
+        Route::get('medical-files/{medicalFile}/download', [MedicalFileController::class, 'download'])->name('medical_files.download');
+        Route::delete('medical-files/{medicalFile}', [MedicalFileController::class, 'destroy'])->name('medical_files.destroy');
 
-    // ÁREA RESTRITA: Apenas usuários com a Role 'Admin' entram aqui
-    Route::middleware(['role:Admin'])->group(function () {
-        Route::resource('users', UserController::class);
+        // Agendamentos e Faturamento
+        Route::resource('appointments', AppointmentController::class);
+        Route::get('appointments/{appointment}/prescription', [AppointmentController::class, 'prescription'])->name('appointments.prescription');
+        Route::get('appointments/{appointment}/certificate', [AppointmentController::class, 'certificate'])->name('appointments.certificate');
 
-        // Nova rota de Auditoria:
-        Route::get('audit-logs', [\App\Http\Controllers\AuditLogController::class, 'index'])->name('audit.index');
+        Route::put('appointments/{appointment}/payment', [PaymentController::class, 'update'])->name('payments.update');
+        Route::get('appointments/{appointment}/receipt', [PaymentController::class, 'receipt'])->name('payments.receipt');
 
-        // Módulo de Backups
-        Route::get('backups', [\App\Http\Controllers\BackupController::class, 'index'])->name('backups.index');
-        Route::post('backups/create', [\App\Http\Controllers\BackupController::class, 'create'])->name('backups.create');
-        Route::get('backups/download/{fileName}', [\App\Http\Controllers\BackupController::class, 'download'])->name('backups.download');
-        Route::delete('backups/delete/{fileName}', [\App\Http\Controllers\BackupController::class, 'destroy'])->name('backups.destroy');
-        Route::post('backups/restore/{fileName}', [\App\Http\Controllers\BackupController::class, 'restore'])->name('backups.restore');
+        // ==========================================
+        // 4. ÁREA DE ADMINISTRAÇÃO AVANÇADA
+        // Acesso: Apenas Role 'Admin'
+        // ==========================================
+        Route::middleware(['role:Admin'])->group(function () {
+
+            Route::resource('users', UserController::class);
+
+            // Auditoria
+            Route::get('audit-logs', [AuditLogController::class, 'index'])->name('audit.index');
+
+            // Backups
+            Route::get('backups', [BackupController::class, 'index'])->name('backups.index');
+            Route::post('backups/create', [BackupController::class, 'create'])->name('backups.create');
+            Route::get('backups/download/{fileName}', [BackupController::class, 'download'])->name('backups.download');
+            Route::delete('backups/delete/{fileName}', [BackupController::class, 'destroy'])->name('backups.destroy');
+            Route::post('backups/restore/{fileName}', [BackupController::class, 'restore'])->name('backups.restore');
+        });
     });
 });
 

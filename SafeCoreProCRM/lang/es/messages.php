@@ -1,5 +1,10 @@
 <?php
 return [
+    'app_name' => 'SafeCorePro CRM',
+    'administration' => 'Administración',
+    'profile' => 'Perfil',
+    'logout' => 'Cerrar Sesión',
+
     'welcome' => 'Bienvenido a SafeCoreProCRM',
     'dashboard' => 'Panel de Control',
     // Navbar & Settings
@@ -56,6 +61,9 @@ return [
     'role' => 'Rol en el Sistema',
     'password' => 'Contraseña',
     'password_confirmation' => 'Confirmar Contraseña',
+    'reset_password' => 'Redefinir Contraseña',
+    'password_reset' => 'Contraseña redefinida con éxito! Nueva contraseña:',
+
     'leave_blank_to_keep' => 'Dejar en blanco para mantener la contraseña actual',
     'user_created_successfully' => '¡Miembro del equipo añadido con éxito!',
     'user_updated_successfully' => '¡Miembro del equipo actualizado con éxito!',
@@ -152,6 +160,27 @@ return [
     'thank_you' => '¡Gracias por confiar en nosotros!',
 
     'delete_user_text' => '¿Está seguro de que desea eliminar este usuario? Su acceso al sistema será revocado permanentemente.',
+
+    'patient_portal' => 'Portal del Paciente',
+    'my_appointments' => 'Mis Citas',
+    'book_appointment' => 'Agendar Cita',
+    'choose_doctor' => 'Elegir Médico',
+    'available_slots' => 'Horarios Disponibles',
+    'create_account' => 'Crear Acceso Web',
+
+    'generate_access' => 'Generar Acceso Web',
+    'access_generated' => '¡Acceso web generado con éxito! Contraseña temporal:',
+    'has_access' => 'Acceso Web Activo',
+    'welcome_portal' => 'Bienvenido a su Portal del Paciente',
+    'new_appointment' => 'Nueva Cita',
+    'reason' => 'Motivo / Síntomas',
+    'choose_date' => 'Elegir Fecha',
+    'choose_time' => 'Elegir Hora',
+    'appointment_requested' => '¡Cita solicitada con éxito!',
+
+    'confirm_generate_access' => '¿Generar inicio de sesión web para este paciente?',
+    'confirm_reset_password' => '¿Generar nueva contraseña de acceso web para este paciente?',
+    'reset_password' => 'Restablecer Contraseña',
 
 
 

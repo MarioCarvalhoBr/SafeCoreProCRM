@@ -22,11 +22,15 @@ class AuthenticatedSessionController extends Controller
     /**
      * Handle an incoming authentication request.
      */
-    public function store(LoginRequest $request): RedirectResponse
+    public function store(\App\Http\Requests\Auth\LoginRequest $request): \Illuminate\Http\RedirectResponse
     {
         $request->authenticate();
-
         $request->session()->regenerate();
+
+        // SÊNIOR: Redirecionamento Baseado em Cargo (RBAC)
+        if ($request->user()->hasRole('Patient')) {
+            return redirect()->route('portal.dashboard');
+        }
 
         return redirect()->intended(route('dashboard', absolute: false));
     }

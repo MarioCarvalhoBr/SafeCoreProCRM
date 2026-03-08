@@ -88,4 +88,28 @@ class PatientController extends Controller
 
         return redirect()->route('patients.index')->with('success', __('messages.patient_deleted_successfully'));
     }
+
+    public function generateAccess(\App\Models\Patient $patient)
+    {
+        $password = \Illuminate\Support\Str::random(8);
+
+        // Se o paciente já tem login, APENAS reseta a senha
+        if ($patient->user_id) {
+            $user = \App\Models\User::find($patient->user_id);
+            $user->update(['password' => \Illuminate\Support\Facades\Hash::make($password)]);
+            return back()->with('success', __('messages.password_reset') . ' ' . $password);
+        }
+
+        // Se NÃO tem, cria um novo
+        $user = \App\Models\User::create([
+            'name' => $patient->name,
+            'email' => $patient->email,
+            'password' => \Illuminate\Support\Facades\Hash::make($password),
+        ]);
+
+        $user->assignRole('Patient');
+        $patient->update(['user_id' => $user->id]);
+
+        return back()->with('success', __('messages.access_generated') . ' ' . $password);
+    }
 }

@@ -1,5 +1,10 @@
 <?php
 return [
+    'app_name' => 'SafeCorePro CRM',
+    'administration' => 'Administration',
+    'profile' => 'Profile',
+    'logout' => 'Log Out',
+
     'welcome' => 'Welcome to SafeCoreProCRM',
     'dashboard' => 'Dashboard',
     // Navbar & Settings
@@ -56,6 +61,8 @@ return [
     'role' => 'System Role',
     'password' => 'Password',
     'password_confirmation' => 'Confirm Password',
+    'reset_password' => 'Reset Password',
+    'password_reset' => 'Password reset successfully! New password:',
     'leave_blank_to_keep' => 'Leave blank to keep current password',
     'user_created_successfully' => 'Staff member added successfully!',
     'user_updated_successfully' => 'Staff member updated successfully!',
@@ -152,4 +159,25 @@ return [
     'thank_you' => 'Thank you for trusting us!',
 
     'delete_user_text' => 'Are you sure you want to delete this user? Their access to the system will be permanently revoked.',
+
+    'patient_portal' => 'Patient Portal',
+    'my_appointments' => 'My Appointments',
+    'book_appointment' => 'Book Appointment',
+    'choose_doctor' => 'Choose a Doctor',
+    'available_slots' => 'Available Slots',
+    'create_account' => 'Create Web Access',
+
+    'generate_access' => 'Generate Web Access',
+    'access_generated' => 'Web access generated successfully! Temporary Password:',
+    'has_access' => 'Active Web Access',
+    'welcome_portal' => 'Welcome to your Patient Portal',
+    'new_appointment' => 'New Appointment',
+    'reason' => 'Reason / Symptoms',
+    'choose_date' => 'Choose Date',
+    'choose_time' => 'Choose Time',
+    'appointment_requested' => 'Appointment requested successfully!',
+
+    'confirm_generate_access' => 'Generate web login for this patient?',
+    'confirm_reset_password' => 'Generate a new web access password for this patient?',
+    'reset_password' => 'Reset Password',
 ];
