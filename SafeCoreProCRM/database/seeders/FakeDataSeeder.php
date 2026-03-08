@@ -18,14 +18,14 @@ class FakeDataSeeder extends Seeder
         // 1. Inicializa o Faker no padrão brasileiro
         $faker = Factory::create('pt_BR');
 
-        // 2. Garantir que as Roles existam (segurança caso o RolesSeeder não tenha rodado)
+        // 2. Garantir que as Roles existam
         $doctorRole = Role::firstOrCreate(['name' => 'Doctor']);
         $receptionistRole = Role::firstOrCreate(['name' => 'Receptionist']);
 
         $doctorsIds = [];
         $patientsIds = [];
 
-        // 3. Criar 10 Médicos (Users com Role Doctor)
+        // 3. Criar 10 Médicos
         for ($i = 0; $i < 10; $i++) {
             $doctor = User::create([
                 'name' => 'Dr. ' . $faker->firstName . ' ' . $faker->lastName,
@@ -50,7 +50,6 @@ class FakeDataSeeder extends Seeder
 
         // 5. Criar 30 Pacientes com Gênero e Endereço
         for ($i = 0; $i < 30; $i++) {
-            // CORREÇÃO DO DOCUMENTO: Garante 30 IDs únicos (00000000001 até 00000000030)
             $docId = str_pad($i + 1, 11, '0', STR_PAD_LEFT);
 
             $patient = Patient::create([
@@ -58,15 +57,14 @@ class FakeDataSeeder extends Seeder
                 'email' => $faker->unique()->safeEmail,
                 'phone' => $faker->cellphone,
                 'document_id' => $docId,
-                'birth_date' => $faker->date('Y-m-d', '-20 years'), // Pessoas com mais de 20 anos
+                'birth_date' => $faker->date('Y-m-d', '-20 years'),
                 'gender' => $faker->randomElement(['M', 'F']),
                 'address' => $faker->address,
             ]);
             $patientsIds[] = $patient->id;
         }
 
-        // 6. Criar 50 Agendamentos com Distribuição Controlada
-        // Criamos um array com os status desejados e embaralhamos
+        // 6. Criar 50 Agendamentos distribuídos entre 25/02 e 25/04
         $statuses = array_merge(
             array_fill(0, 10, 'canceled'),
             array_fill(0, 20, 'scheduled'),
@@ -74,14 +72,19 @@ class FakeDataSeeder extends Seeder
         );
         shuffle($statuses);
 
+        // Definimos os limites para o sorteio das datas
+        $startDate = Carbon::create(2026, 2, 25);
+        $endDate = Carbon::create(2026, 4, 25);
+        $daysDifference = $startDate->diffInDays($endDate);
+
         foreach ($statuses as $status) {
-            // Datas entre 15 dias atrás e 15 dias no futuro
-            $date = Carbon::now()->addDays(rand(-15, 15));
+            // Sorteia um dia dentro do intervalo definido
+            $randomDate = (clone $startDate)->addDays(rand(0, $daysDifference));
 
             Appointment::create([
                 'patient_id' => $faker->randomElement($patientsIds),
-                'user_id' => $faker->randomElement($doctorsIds),
-                'appointment_date' => $date->format('Y-m-d'),
+                'user_id' => $faker->randomElement($doctorsIds), // Ajustado para bater com seu Model/Controller
+                'appointment_date' => $randomDate->format('Y-m-d'),
                 'appointment_time' => $faker->randomElement(['08:00', '09:00', '10:00', '11:00', '14:00', '15:00', '16:00', '17:00']),
                 'status' => $status,
                 'notes' => 'Consulta gerada via Seeder automático. ' . $faker->sentence(6),
@@ -89,6 +92,6 @@ class FakeDataSeeder extends Seeder
             ]);
         }
 
-        $this->command->info('Sucesso: 10 médicos, 4 recepcionistas, 30 pacientes e 50 agendamentos criados!');
+        $this->command->info('Sucesso: Dados reais e agendamentos distribuídos entre 25/02 e 25/04 criados!');
     }
 }
