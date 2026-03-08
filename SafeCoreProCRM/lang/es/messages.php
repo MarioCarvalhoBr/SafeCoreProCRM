@@ -24,6 +24,7 @@ return [
     'open' => 'Abrir',
     'edit' => 'Editar',
     'delete' => 'Eliminar',
+    'options' => 'Opciones',
     'confirm_delete' => 'Confirmar Eliminación',
     'delete_patient_text' => '¿Está seguro de que desea eliminar a este paciente? Esta acción no se puede deshacer.',
     'patient_updated_successfully' => '¡Paciente actualizado con éxito!',

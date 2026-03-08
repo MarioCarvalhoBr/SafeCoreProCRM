@@ -76,40 +76,65 @@
 
                                     <td class="py-3 px-4 text-center">
                                     <td class="py-3 px-4 text-center">
-                                        <div class="flex justify-center items-center space-x-3">
+                                        <div class="flex justify-center items-center">
 
-                                            <a href="{{ route('appointments.edit', $appointment->id) }}" class="inline-flex items-center px-3 py-1.5 bg-blue-600 dark:bg-blue-500 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 dark:hover:bg-blue-600 transition ease-in-out duration-150">
-                                                {{ __('messages.edit') }}
-                                            </a>
+                                            <!-- Componente Dropdown Nativo do Breeze -->
+                                            <x-dropdown align="right" width="48">
+                                                <x-slot name="trigger">
+                                                    <button class="inline-flex items-center px-3 py-2 border border-gray-300 dark:border-gray-600 text-sm leading-4 font-medium rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-100 focus:outline-none transition ease-in-out duration-150 shadow-sm">
+                                                        {{ __('messages.options') }}
+                                                        <div class="ms-1">
+                                                            <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                                            </svg>
+                                                        </div>
+                                                    </button>
+                                                </x-slot>
 
-                                            <button x-data="" x-on:click.prevent="$dispatch('open-modal', 'confirm-deletion-{{ $appointment->id }}')" class="inline-flex items-center px-3 py-1.5 bg-red-600 dark:bg-red-500 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-700 dark:hover:bg-red-600 transition ease-in-out duration-150">
-                                                {{ __('messages.delete') }}
-                                            </button>
+                                                <x-slot name="content">
+                                                    <!-- Editar -->
+                                                    <x-dropdown-link :href="route('appointments.edit', $appointment->id)" class="text-blue-600 dark:text-blue-400">
+                                                        {{ __('messages.edit') }}
+                                                    </x-dropdown-link>
 
-                                            <button x-data="" x-on:click.prevent="$dispatch('open-modal', 'financial-{{ $appointment->id }}')" class="inline-flex items-center px-3 py-1.5 bg-emerald-600 dark:bg-emerald-500 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-emerald-700 dark:hover:bg-emerald-600 transition ease-in-out duration-150" title="{{ __('messages.financial') }}">
-                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                                </svg>
-                                            </button>
+                                                    <!-- Financeiro (Abre Modal) -->
+                                                    <button type="button" x-data="" x-on:click.prevent="$dispatch('open-modal', 'financial-{{ $appointment->id }}')" class="block w-full px-4 py-2 text-start text-sm leading-5 text-emerald-600 dark:text-emerald-400 hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none focus:bg-gray-100 dark:focus:bg-gray-800 transition duration-150 ease-in-out">
+                                                        {{ __('messages.financial') }}
+                                                    </button>
 
+                                                    <!-- Atestado -->
+                                                    <x-dropdown-link :href="route('appointments.certificate', $appointment->id)" target="_blank" class="text-orange-600 dark:text-orange-400">
+                                                        {{ __('messages.medical_certificate') }}
+                                                    </x-dropdown-link>
+
+                                                    <!-- Receita PDF -->
+                                                    <x-dropdown-link :href="route('appointments.prescription', $appointment->id)" target="_blank" class="text-green-600 dark:text-green-400">
+                                                        {{ __('messages.prescription') ?? 'Receita PDF' }}
+                                                    </x-dropdown-link>
+
+                                                    <div class="border-t border-gray-200 dark:border-gray-600"></div>
+
+                                                    <!-- Excluir (Abre Modal) -->
+                                                    <button type="button" x-data="" x-on:click.prevent="$dispatch('open-modal', 'confirm-deletion-{{ $appointment->id }}')" class="block w-full px-4 py-2 text-start text-sm leading-5 text-red-600 dark:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-800 focus:outline-none focus:bg-gray-100 dark:focus:bg-gray-800 transition duration-150 ease-in-out">
+                                                        {{ __('messages.delete') }}
+                                                    </button>
+                                                </x-slot>
+                                            </x-dropdown>
+
+                                            <!-- Modais (Devem ficar fora do dropdown para o z-index não quebrar) -->
                                             <x-modal name="financial-{{ $appointment->id }}" focusable>
                                                 <form method="post" action="{{ route('payments.update', $appointment->id) }}" class="p-6 text-left whitespace-normal">
                                                     @csrf
                                                     @method('put')
-
                                                     <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100 flex items-center mb-4">
-                                                        <svg class="w-5 h-5 mr-2 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                                        </svg>
+                                                        <svg class="w-5 h-5 mr-2 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                                                         {{ __('messages.financial') }} - {{ $appointment->patient->name }}
                                                     </h2>
-
                                                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                                         <div>
                                                             <x-input-label for="amount_{{ $appointment->id }}" :value="__('messages.amount')" />
                                                             <x-text-input id="amount_{{ $appointment->id }}" name="amount" type="number" step="0.01" min="0" class="mt-1 block w-full dark:bg-gray-900 dark:border-gray-700" :value="old('amount', $appointment->payment->amount ?? '0.00')" required />
                                                         </div>
-
                                                         <div>
                                                             <x-input-label for="status_{{ $appointment->id }}" :value="__('messages.status')" />
                                                             <select id="status_{{ $appointment->id }}" name="status" class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 rounded-md shadow-sm" required>
@@ -117,7 +142,6 @@
                                                                 <option value="paid" {{ ($appointment->payment->status ?? '') === 'paid' ? 'selected' : '' }}>{{ __('messages.paid') }}</option>
                                                             </select>
                                                         </div>
-
                                                         <div class="md:col-span-2">
                                                             <x-input-label for="payment_method_{{ $appointment->id }}" :value="__('messages.payment_method')" />
                                                             <select id="payment_method_{{ $appointment->id }}" name="payment_method" class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 rounded-md shadow-sm">
@@ -128,66 +152,31 @@
                                                             </select>
                                                         </div>
                                                     </div>
-
                                                     <div class="mt-6 flex justify-between items-center">
                                                         <div>
                                                             @if($appointment->payment && $appointment->payment->status === 'paid')
                                                             <a href="{{ route('payments.receipt', $appointment->id) }}" target="_blank" class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 transition">
-                                                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path>
-                                                                </svg>
                                                                 {{ __('messages.generate_receipt') }}
                                                             </a>
                                                             @endif
                                                         </div>
-
                                                         <div class="flex gap-3">
-                                                            <button type="button" x-on:click="$dispatch('close')" class="inline-flex items-center px-4 py-2 bg-gray-300 dark:bg-gray-700 rounded-md font-semibold text-xs text-gray-800 dark:text-gray-300 uppercase tracking-widest hover:bg-gray-400 dark:hover:bg-gray-600 transition">
-                                                                {{ __('messages.cancel') }}
-                                                            </button>
-                                                            <button type="submit" class="inline-flex items-center px-4 py-2 bg-emerald-600 rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-emerald-700 transition">
-                                                                {{ __('messages.save') }}
-                                                            </button>
+                                                            <button type="button" x-on:click="$dispatch('close')" class="inline-flex items-center px-4 py-2 bg-gray-300 dark:bg-gray-700 rounded-md font-semibold text-xs text-gray-800 dark:text-gray-300 uppercase tracking-widest hover:bg-gray-400 transition">{{ __('messages.cancel') }}</button>
+                                                            <button type="submit" class="inline-flex items-center px-4 py-2 bg-emerald-600 rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-emerald-700 transition">{{ __('messages.save') }}</button>
                                                         </div>
                                                     </div>
                                                 </form>
                                             </x-modal>
 
-                                            <a href="{{ route('appointments.certificate', $appointment->id) }}" target="_blank" class="inline-flex items-center px-3 py-1.5 bg-orange-600 dark:bg-orange-500 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-orange-700 dark:hover:bg-orange-600 transition ease-in-out duration-150">
-                                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                                                </svg>
-                                                {{ __('messages.medical_certificate') }}
-                                            </a>
-
-                                            <a href="{{ route('appointments.prescription', $appointment->id) }}" target="_blank" class="inline-flex items-center px-3 py-1.5 bg-green-600 dark:bg-green-500 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-700 dark:hover:bg-green-600 transition ease-in-out duration-150">
-                                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path>
-                                                </svg>
-                                                PDF
-                                            </a>
-
                                             <x-modal name="confirm-deletion-{{ $appointment->id }}" focusable>
                                                 <form method="post" action="{{ route('appointments.destroy', $appointment->id) }}" class="p-6 text-left">
                                                     @csrf
                                                     @method('delete')
-
-                                                    <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
-                                                        {{ __('messages.confirm_delete') }}
-                                                    </h2>
-
-                                                    <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                                                        Tem a certeza de que deseja eliminar este agendamento?
-                                                    </p>
-
+                                                    <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">{{ __('messages.confirm_delete') }}</h2>
+                                                    <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">Tem a certeza de que deseja eliminar este agendamento?</p>
                                                     <div class="mt-6 flex justify-end">
-                                                        <button type="button" x-on:click="$dispatch('close')" class="inline-flex items-center px-4 py-2 bg-gray-300 dark:bg-gray-700 border border-transparent rounded-md font-semibold text-xs text-gray-800 dark:text-gray-300 uppercase tracking-widest hover:bg-gray-400 dark:hover:bg-gray-600 transition ease-in-out duration-150">
-                                                            {{ __('messages.cancel') }}
-                                                        </button>
-
-                                                        <button type="submit" class="ms-3 inline-flex items-center px-4 py-2 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-700 transition ease-in-out duration-150">
-                                                            {{ __('messages.delete') }}
-                                                        </button>
+                                                        <button type="button" x-on:click="$dispatch('close')" class="inline-flex items-center px-4 py-2 bg-gray-300 dark:bg-gray-700 rounded-md font-semibold text-xs text-gray-800 dark:text-gray-300 uppercase tracking-widest hover:bg-gray-400 transition">{{ __('messages.cancel') }}</button>
+                                                        <button type="submit" class="ms-3 inline-flex items-center px-4 py-2 bg-red-600 rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-700 transition">{{ __('messages.delete') }}</button>
                                                     </div>
                                                 </form>
                                             </x-modal>

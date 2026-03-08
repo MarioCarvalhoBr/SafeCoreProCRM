@@ -24,6 +24,7 @@ return [
     'open' => 'Abrir',
     'edit' => 'Editar',
     'delete' => 'Excluir',
+    'options' => 'Opções',
     'confirm_delete' => 'Confirmar Exclusão',
     'delete_patient_text' => 'Tem certeza que deseja excluir este paciente? Esta ação não pode ser desfeita.',
     'patient_updated_successfully' => 'Paciente atualizado com sucesso!',

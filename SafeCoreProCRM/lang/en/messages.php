@@ -24,6 +24,7 @@ return [
     'open' => 'Open',
     'edit' => 'Edit',
     'delete' => 'Delete',
+    'options' => 'Options',
     'confirm_delete' => 'Confirm Deletion',
     'delete_patient_text' => 'Are you sure you want to delete this patient? This action cannot be undone.',
     'patient_updated_successfully' => 'Patient updated successfully!',
